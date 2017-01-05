@@ -3,10 +3,10 @@ Provides some of the common assembly statistics used to identify how good a meta
 
 
 ##Statistics  
--N50
--Total bases in assembly
--Longest contig
--Smallest contig
+- N50
+- Total bases in assembly
+- Longest contig
+- Smallest contig
 
 
 A plot of the contigs lengths within the assembly is also produced and labelled using the `-o` option
