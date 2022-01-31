@@ -6,8 +6,10 @@ import seaborn
 import numpy 
 
 parser = argparse.ArgumentParser() #simplifys the wording of using argparse as stated in the python tutorial
-parser.add_argument("-i", type=str, action='store',  dest='input', help="input the read file") # allows input of the forward read
-parser.add_argument("-o", type=str, action='store',  dest='output', help="output the read file") # allows input of the forward read
+parser.add_argument("-i", type=str, action='store',  dest='input', help="input the read file") # allows input of the genome
+parser.add_argument("-r1", type=str, action='store', required=False,  dest='Read1', help="R1 file") # allows input of the forward read
+parser.add_argument("-r2", type=str, action='store', required=False,  dest='Read2', help="R2 file") # allows input of the forward read
+parser.add_argument("-o", type=str, action='store',  dest='output', help="output the read file") # allows output name
 parser.add_argument('-fasta', action='store_true', default=False, dest='fasta_switch', help='Input is fasta')
 parser.add_argument('-fastq', action='store_true', default=False, dest='fastq_switch', help='Input is fastq')
 args = parser.parse_args()
@@ -58,6 +60,9 @@ listolengths.sort()
 
 allnums = listolengths.sum()
 
+print ("Total number of contigs is: %d" %len(listolengths))
+
+
 print ("Total number of bases in all contigs/reads is: %d" %allnums)
 
 
@@ -91,4 +96,19 @@ print ("%d is the smallest contig/read" % listolengths.min())
 
 
 
+## Print coverage
+
+if args.Read1 is not None:
+    if args.Read2 is not None: # Double reads
+        readfile = HTSeq.FastqReader(args.Read1)
+        readbases1 = numpy.fromiter((len(x) for x in readfile), int)
+        readfile = HTSeq.FastqReader(args.Read2)
+        readbases2 = numpy.fromiter((len(x) for x in readfile), int)
+        coverage = (readbases1.sum()+readbases2.sum())/float(allnums)
+    else:
+        readfile = HTSeq.FastqReader(args.Read1)
+        readbases1 = numpy.fromiter((len(x) for x in readfile), int)
+        coverage = readbases1.sum()/float(allnums)        
+
+print ("Coverage is: %d" %coverage)
 
