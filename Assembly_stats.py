@@ -1,8 +1,6 @@
 import HTSeq
 import random
 import argparse
-import matplotlib.pyplot as plt
-import seaborn
 import numpy 
 
 parser = argparse.ArgumentParser() #simplifys the wording of using argparse as stated in the python tutorial
@@ -10,18 +8,13 @@ parser.add_argument("-i", type=str, action='store',  dest='input', help="input t
 parser.add_argument("-r1", type=str, action='store', required=False,  dest='Read1', help="R1 file") # allows input of the forward read
 parser.add_argument("-r2", type=str, action='store', required=False,  dest='Read2', help="R2 file") # allows input of the forward read
 parser.add_argument("-o", type=str, action='store',  dest='output', help="output the read file") # allows output name
-parser.add_argument('-fasta', action='store_true', default=False, dest='fasta_switch', help='Input is fasta')
-parser.add_argument('-fastq', action='store_true', default=False, dest='fastq_switch', help='Input is fastq')
 args = parser.parse_args()
 
 INPUT = str(args.input)
 OUTPUT = str(args.output)
 
 
-if args.fasta_switch == True:
-    inputfile = HTSeq.FastaReader( INPUT )
-if args.fastq_switch == True:
-        inputfile = HTSeq.FastqReader( INPUT, "phred")
+inputfile = HTSeq.FastaReader( INPUT )
 
 listolengths = numpy.fromiter((len(x) for x in inputfile), int)
 
@@ -38,12 +31,6 @@ print ("There are %d contigs/reads in this file" % len(listolengths))
 #Sorts out the list of lengths from largest to smallest 
 
 
-seaborn.kdeplot(listolengths, shade=True, c='blue')
-plt.xlabel('Contig/Read length')
-plt.ylabel('Abundance')
-plt.axis([0, 1000000, 0, 8000000])
-plt.title('%s contigs/reads size and abundance' %OUTPUT)
-plt.savefig('%s.pdf' %OUTPUT)
 
 
 
@@ -108,7 +95,7 @@ if args.Read1 is not None:
     else:
         readfile = HTSeq.FastqReader(args.Read1)
         readbases1 = numpy.fromiter((len(x) for x in readfile), int)
-        coverage = readbases1.sum()/float(allnums)        
+        coverage = float(readbases1.sum())/float(allnums)        
 
-print ("Coverage is: %d" %coverage)
+print ("Coverage is: %d" %float(coverage))
 
