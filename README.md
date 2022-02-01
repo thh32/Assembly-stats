@@ -7,9 +7,7 @@ Provides some of the common assembly statistics used to identify how good a meta
 - Total bases in assembly
 - Longest contig
 - Smallest contig
-
-
-A plot of the contigs lengths within the assembly is also produced and labelled using the `-o` option
+-  Coverage
 
 
 
@@ -17,6 +15,8 @@ A plot of the contigs lengths within the assembly is also produced and labelled 
 
 Use Assembly_stats.py like so;
 ```
-python Assembly_stats.py -fasta -i $INPUT -o $OUTPUT
+python Assembly_stats.py  -i $INPUT -r1 $READ1 -r2 $READ2 -o $OUTPUT
 
 ```
+
+The code works with both single and paired end data.
