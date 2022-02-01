@@ -5,6 +5,7 @@ Provides some of the common assembly statistics used to identify how good a meta
 ##Statistics  
 - N50
 - Total bases in assembly
+- Number of contigs
 - Longest contig
 - Smallest contig
 -  Coverage
